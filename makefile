@@ -14,7 +14,6 @@ build-stamp: stage-stamp
 stage-stamp: configure-stamp
 
 configure-stamp: patch-stamp
-	$(call show_vars,CFLAGS CPPFLAGS)
 	cd $(pq_part_name) && ./bootstrap.sh $(pq_boost_configuration_flags)
 	touch $@
 
