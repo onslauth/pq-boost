@@ -3,27 +3,19 @@ include $(PQ_FACTORY)/factory.mk
 pq_part_name := boost_1_57_0
 pq_part_file := $(pq_part_name).tar.bz2
 
-#pq_gcc_configuration_flags += --prefix=$(part_dir)
-#pq_gcc_configuration_flags += --with-mpc=$(pq-mpc-dir)
-#pq_gcc_configuration_flags += --with-gmp=$(pq-gmp-dir)
-#pq_gcc_configuration_flags += --with-mpfr=$(pq-mpfr-dir)
-#pq_gcc_configuration_flags += --enable-languages=c,c++
-#pq_gcc_configuration_flags += --disable-bootstrap
-#pq_gcc_configuration_flags += --disable-multilib
-#pq_gcc_configuration_flags += --enable-shared
-#pq_gcc_configuration_flags += --enable-threads=posix
-#pq_gcc_configuration_flags += --with-tune=generic
+pq_boost_configuration_flags += --prefix=$(part_dir)
+pq_boost_configuration_flags += --with-python-root=$(pq-python-dir)
+pq_boost_configuration_flags += --with-python-version=2.7
 
 build-stamp: stage-stamp
-	#$(MAKE) -C gcc-build mkinstalldirs=$(part_dir)
-	#$(MAKE) -C gcc-build mkinstalldirs=$(part_dir) DESTDIR=$(stage_dir) install
+	cd $(pq_part_name) && BZIP2_INCLUDE=$(pq-bzip2-dir)/include BZIP2_LIBPATH=$(pq-bzip2-dir)/lib ./b2 --prefix=$(stage_dir)/$(part_dir) install
 	touch $@
 
 stage-stamp: configure-stamp
 
 configure-stamp: patch-stamp
-	#mkdir -p gcc-build
-	#cd gcc-build &&	../$(pq_part_name)/configure $(pq_gcc_configuration_flags)
+	$(call show_vars,CFLAGS CPPFLAGS)
+	cd $(pq_part_name) && ./bootstrap.sh $(pq_boost_configuration_flags)
 	touch $@
 
 patch-stamp: unpack-stamp

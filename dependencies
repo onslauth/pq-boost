@@ -1,1 +1,3 @@
-part: 'pq-gcc', branch: '4.9.1'
+part: 'pq-gcc',    branch: '4.9.1'
+part: 'pq-python', branch: '2.7.9'
+part: 'pq-bzip2',  branch: '1.0.6'
